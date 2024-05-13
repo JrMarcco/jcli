@@ -9,7 +9,7 @@ use std::str::FromStr;
 pub struct CsvOpts {
     #[arg(short, long)]
     pub input: String,
-    #[arg(short, long, value_parser = parse_format, default_value = "json")]
+    #[arg(long, value_parser = parse_format, default_value = "json")]
     pub format: OutputFormat,
     #[arg(short, long, default_value = "out.json")]
     pub output: Option<String>,
@@ -38,7 +38,7 @@ impl FromStr for OutputFormat {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
+        match s.to_lowercase().as_str() {
             "json" => Ok(OutputFormat::Json),
             "yaml" => Ok(OutputFormat::Yaml),
             _ => Err(anyhow::anyhow!("Invalid format.")),

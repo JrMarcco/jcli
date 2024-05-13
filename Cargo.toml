@@ -15,5 +15,7 @@ serde_yaml = "0.9.34"
 csv = "1.3.0"
 enum_dispatch = "0.3.13"
 tokio = { version = "1.37.0", features = ["rt", "rt-multi-thread", "macros"] }
+rand = "0.8.5"
+zxcvbn = "2.2.2"
 
 [dev-dependencies]

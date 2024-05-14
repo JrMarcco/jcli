@@ -1,11 +1,14 @@
+use std::path::{Path, PathBuf};
+
 use clap::Parser;
 use enum_dispatch::enum_dispatch;
 
-pub use self::{base64::*, csv::*, passwd::*};
+pub use self::{base64::*, csv::*, passwd::*, text::*};
 
 mod base64;
 mod csv;
 mod passwd;
+mod text;
 
 #[derive(Debug, Parser)]
 #[command(name = "jcli", version = "0.0.1", author = "jrmarcco", about, long_about = None)]
@@ -23,4 +26,16 @@ pub enum SubCmd {
     Passwd(PasswdOpt),
     #[command(subcommand, about = "Base64 encode/decode.")]
     Base64(Base64Opt),
+    #[command(subcommand, about = "Text sign/verify.")]
+    Text(TextOpt),
+}
+
+fn verify_path(path: &str) -> Result<PathBuf, &'static str> {
+    let p = Path::new(path);
+
+    if p.exists() && p.is_dir() {
+        Ok(path.into())
+    } else {
+        Err("Path not exist or not a directory.")
+    }
 }

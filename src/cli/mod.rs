@@ -3,10 +3,11 @@ use std::path::{Path, PathBuf};
 use clap::Parser;
 use enum_dispatch::enum_dispatch;
 
-pub use self::{base64::*, csv::*, passwd::*, text::*};
+pub use self::{base64::*, csv::*, http::*, passwd::*, text::*};
 
 mod base64;
 mod csv;
+mod http;
 mod passwd;
 mod text;
 
@@ -28,6 +29,8 @@ pub enum SubCmd {
     Base64(Base64Opt),
     #[command(subcommand, about = "Text sign/verify.")]
     Text(TextOpt),
+    #[command(subcommand, about = "Http serve.")]
+    Http(HttpOpts),
 }
 
 fn verify_path(path: &str) -> Result<PathBuf, &'static str> {
